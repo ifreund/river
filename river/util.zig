@@ -16,6 +16,7 @@
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 const std = @import("std");
+const os = std.os;
 
 /// The global general-purpose allocator used throughout river's code
 pub const gpa = std.heap.c_allocator;
@@ -28,4 +29,10 @@ pub fn voidCast(comptime T: type, ptr: anytype) *T {
     if (@TypeOf(ptr) != *c_void)
         @compileError("voidCast takes *c_void but " ++ @typeName(@TypeOf(ptr)) ++ " was provided");
     return @ptrCast(*T, @alignCast(@alignOf(*T), ptr));
+}
+
+pub fn getNowMsec() u32 {
+    var now: os.timespec = undefined;
+    os.clock_gettime(os.CLOCK_MONOTONIC, &now) catch @panic("CLOCK_MONOTONIC is unsupported");
+    return @intCast(u32, (now.tv_sec * 1000) + @divFloor(now.tv_nsec, @as(@TypeOf(now.tv_nsec), 1000000)));
 }
