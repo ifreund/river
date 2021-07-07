@@ -112,14 +112,14 @@ pub fn lastFocusedTags(
     args: []const []const u8,
     out: *?[]const u8,
 ) Error!void {
-    const tags = try std.fmt.parseInt(u32, self.focused_output.pending.last_tags, 10);
-    if (tags == 0) {
+    const last_tags = seat.focused_output.pending.last_tags;
+    if (last_tags == 0) {
         out.* = try std.fmt.allocPrint(allocator, "no remembered tags found on this output", .{});
         return Error.Other;
     }
-    if (seat.focused_output.pending.tags != tags) {
+    if (seat.focused_output.pending.tags != last_tags) {
         seat.focused_output.pending.last_tags = seat.focused_output.pending.tags;
-        seat.focused_output.pending.tags = tags;
+        seat.focused_output.pending.tags = last_tags;
         seat.focused_output.arrangeViews();
         seat.focus(null);
         server.root.startTransaction();

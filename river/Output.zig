@@ -72,8 +72,8 @@ usable_box: Box,
 views: ViewStack(View) = .{},
 
 /// The double-buffered state of the output.
-current: State = State{ .tags = 1 << 0 },
-pending: State = State{ .tags = 1 << 0 },
+current: State = State{ .tags = 1 << 0, .last_tags = 0 << 0 },
+pending: State = State{ .tags = 1 << 0, .last_tags = 0 << 0 },
 
 /// The currently active LayoutDemand
 layout_demand: ?LayoutDemand = null,
