@@ -42,6 +42,9 @@ const State = struct {
     /// A bit field of focused tags
     tags: u32,
 
+    /// Remembered version of tags (from last run)
+    last_tags: u32,
+
     /// Active layout, or null if views are un-arranged.
     ///
     /// If null, views which are manually moved or resized (with the pointer or
