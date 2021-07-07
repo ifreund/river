@@ -117,6 +117,7 @@ are ignored by river.
 	Toggle visibility of views with tags corresponding to the set bits
 	of _tags_ on the currently focused output.
 
+
 *toggle-view-tags* _tags_
 	Toggle the tags of the currently focused view corresponding to the
 	set bits of _tags_.
@@ -128,6 +129,11 @@ are ignored by river.
 	are focused on an output with a _tagmask_ of 111110001, a new view
 	will be assigned the tags 000010001. If no tags would remain after
 	filtering, the _tagmask_ is ignored.
+
+*last-focused-tags*
+	Sets tags for this output to the previous value it was allowing jumping
+	back and forth between 2 tag setups. If no previous value of tags exists, call
+	is ignored.
 
 ## MAPPINGS
 
