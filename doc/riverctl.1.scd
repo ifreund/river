@@ -130,9 +130,8 @@ are ignored by river.
 	filtering, the _tagmask_ is ignored.
 
 *last-focused-tags*
-	Sets tags for this output to the previous value it was allowing jumping
-	back and forth between 2 tag setups. If no previous value of tags exists, call
-	is ignored.
+	Sets tags for this output to the previous value it had, allowing jumping
+	back and forth between 2 tag setups.
 
 ## MAPPINGS
 
