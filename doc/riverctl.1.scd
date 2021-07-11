@@ -117,7 +117,6 @@ are ignored by river.
 	Toggle visibility of views with tags corresponding to the set bits
 	of _tags_ on the currently focused output.
 
-
 *toggle-view-tags* _tags_
 	Toggle the tags of the currently focused view corresponding to the
 	set bits of _tags_.
