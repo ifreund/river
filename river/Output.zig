@@ -42,9 +42,6 @@ const State = struct {
     /// A bit field of focused tags
     tags: u32,
 
-    /// Remembered version of tags (from last run)
-    last_tags: u32,
-
     /// Active layout, or null if views are un-arranged.
     ///
     /// If null, views which are manually moved or resized (with the pointer or
@@ -72,8 +69,11 @@ usable_box: Box,
 views: ViewStack(View) = .{},
 
 /// The double-buffered state of the output.
-current: State = State{ .tags = 1 << 0, .last_tags = 0 << 0 },
-pending: State = State{ .tags = 1 << 0, .last_tags = 0 << 0 },
+current: State = State{ .tags = 1 << 0 },
+pending: State = State{ .tags = 1 << 0 },
+
+/// Remembered version of tags (from last run)
+last_tags: u32 = 1 << 0,
 
 /// The currently active LayoutDemand
 layout_demand: ?LayoutDemand = null,

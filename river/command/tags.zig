@@ -31,7 +31,7 @@ pub fn setFocusedTags(
 ) Error!void {
     const tags = try parseTags(allocator, args, out);
     if (seat.focused_output.pending.tags != tags) {
-        seat.focused_output.pending.last_tags = seat.focused_output.pending.tags;
+        seat.focused_output.last_tags = seat.focused_output.pending.tags;
         seat.focused_output.pending.tags = tags;
         seat.focused_output.arrangeViews();
         seat.focus(null);
@@ -77,7 +77,7 @@ pub fn toggleFocusedTags(
     const output = seat.focused_output;
     const new_focused_tags = output.pending.tags ^ tags;
     if (new_focused_tags != 0) {
-        output.pending.last_tags = output.pending.tags;
+        output.last_tags = output.pending.tags;
         output.pending.tags = new_focused_tags;
         output.arrangeViews();
         seat.focus(null);
@@ -105,20 +105,15 @@ pub fn toggleViewTags(
 }
 
 /// Switch focus to tags that were selected before
-/// If there are no remembered tags, do nothing
 pub fn lastFocusedTags(
     allocator: *std.mem.Allocator,
     seat: *Seat,
     args: []const []const u8,
     out: *?[]const u8,
 ) Error!void {
-    const last_tags = seat.focused_output.pending.last_tags;
-    if (last_tags == 0) {
-        out.* = try std.fmt.allocPrint(allocator, "no remembered tags found on this output", .{});
-        return Error.Other;
-    }
+    const last_tags = seat.focused_output.last_tags;
     if (seat.focused_output.pending.tags != last_tags) {
-        seat.focused_output.pending.last_tags = seat.focused_output.pending.tags;
+        seat.focused_output.last_tags = seat.focused_output.pending.tags;
         seat.focused_output.pending.tags = last_tags;
         seat.focused_output.arrangeViews();
         seat.focus(null);
