@@ -407,6 +407,12 @@ fn commitTransaction(self: *Self) void {
 
         output.damage.addWhole();
     }
+
+    // Iterate over all seats and try to reset their cursors state
+    var seat_it = server.input_manager.seats.first;
+    while (seat_it) |seat_node| : (seat_it = seat_node.next) {
+        seat_node.data.cursor.resetState();
+    }
 }
 
 /// Send the new output configuration to all wlr-output-manager clients

@@ -133,6 +133,30 @@ pub fn deinit(self: *Self) void {
     self.wlr_cursor.destroy();
 }
 
+/// If there is a target view and it is no longer visible, abort all operations
+/// and updates the surface beneath the cursor.
+pub fn resetState(self: *Self) void {
+    const target_view: ?*View = switch (self.mode) {
+        .passthrough => null,
+        .down => |down| down,
+        .move => |move| move,
+        .resize => |resize| resize.view,
+    };
+
+    if (target_view) |view| {
+        // If the target view is no longer visible, abort the operation. Note
+        // that if the previous mode was .down, we do not send button release
+        // events. This is on purpose.
+        if (view.current.tags & view.output.current.tags == 0) {
+            self.mode = .passthrough;
+        }
+    }
+
+    if (self.mode == .passthrough) {
+        self.passthrough(util.getNowMsec());
+    }
+}
+
 /// Set the cursor theme for the given seat, as well as the xwayland theme if
 /// this is the default seat. Either argument may be null, in which case a
 /// default will be used.
